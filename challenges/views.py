@@ -1,5 +1,6 @@
+from turtle import forward
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound,HttpResponseRedirect
 
 monthly_challenges = {
   "january": "Eat meat for entire month",
@@ -16,16 +17,20 @@ monthly_challenges = {
   "december": "Walk for at least 20 minutes every day!",
 }
 # Create your views here.
-def january(request):
-  return HttpResponse("Eat meat for entire month")
+# def january(request):
+#   return HttpResponse("Eat meat for entire month")
 
-def february(request):
-  return HttpResponse("Walk for at least 20 minutes every day!")
+# def february(request):
+#   return HttpResponse("Walk for at least 20 minutes every day!")
 
 # def march(request):
 #   return HttpResponse("Code Django every day!")
 def monthly_challenges_by_number(request, month):
-  return HttpResponse(month)
+  months =list(monthly_challenges.keys())
+  if month > len(months):
+    return HttpResponseNotFound("Invalid month")
+  forward_month = months[month -1]
+  return HttpResponseRedirect("/challenges/" + forward_month)
 
 def monthly_challenge(request, month):
   try:
